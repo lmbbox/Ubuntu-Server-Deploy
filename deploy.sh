@@ -21,7 +21,7 @@ fi
 
 
 # Filepath
-root=`basename $0`
+root=`dirname $0`
 
 
 # Get settings
