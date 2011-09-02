@@ -20,6 +20,10 @@ then
 fi
 
 
+# Filepath
+root=$(dirname $(readlink -f $0))
+
+
 # Get settings
 echo
 echo -n "Please enter a hostname: "
@@ -87,7 +91,7 @@ EOF
 
 
 echo "Generating ~/.bash_login"
-echo "echo; echo; echo 'Running sudo ~/deploy/deploy.sh'; sudo ~/deploy/deploy.sh" > ~/.bash_login
+echo "echo; echo; echo 'Running sudo $root/deploy.sh'; sudo $root/deploy.sh" > ~/.bash_login
 
 
 echo

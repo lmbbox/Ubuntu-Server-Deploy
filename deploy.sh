@@ -21,7 +21,7 @@ fi
 
 
 # Filepath
-root=`dirname $0`
+root=$(dirname $(readlink -f $0))
 
 
 # Get settings
