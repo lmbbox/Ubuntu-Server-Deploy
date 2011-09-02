@@ -35,14 +35,14 @@ fi
 
 # Generate /etc/hostname
 echo "Generating /etc/hostname"
-echo $myhostname > /etc/hostname
+sudo echo $myhostname > /etc/hostname
 
 
 # Generate /etc/hosts
 # hosts.template
 # {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
 echo "Generating /etc/hosts"
-cat << EOF > /etc/hosts
+sudo cat << EOF > /etc/hosts
 127.0.0.1	localhost
 127.0.0.1	$myhostname.$mydomain	$myhostname
 
@@ -57,14 +57,14 @@ EOF
 
 # Generate /etc/resolv.conf
 echo "Generating /etc/resolv.conf"
-echo "search $mydomain" > /etc/resolv.conf
+sudo echo "search $mydomain" > /etc/resolv.conf
 
 
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
 echo "Generating /etc/network/interfaces"
-cat << EOF > /etc/network/interfaces
+sudo cat << EOF > /etc/network/interfaces
 # This file describes the network interfaces available on your system
 # and how to activate them. For more information, see interfaces(5).
 
@@ -72,6 +72,10 @@ cat << EOF > /etc/network/interfaces
 auto lo
 iface lo inet loopback
 EOF
+
+
+echo "Generating ~/.bash_login"
+echo "~/deploy/deploy.sh" > ~/.bash_login
 
 
 echo

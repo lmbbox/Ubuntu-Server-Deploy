@@ -58,25 +58,25 @@ fi
 
 # Generate /etc/hostname
 echo "Generating /etc/hostname"
-echo $myhostname > /etc/hostname
+sudo echo $myhostname > /etc/hostname
 
 
 # Generate /etc/hosts
 # hosts.template
 # {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
 echo "Generating /etc/hosts"
-cp hosts.template /etc/hosts
-sed -i "s/{IP}/$myip/g" /etc/hosts
-sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
-sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
+sudo cp hosts.template /etc/hosts
+sudo sed -i "s/{IP}/$myip/g" /etc/hosts
+sudo sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
+sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
 
 
 # Generate /etc/resolv.conf
 echo "Generating /etc/resolv.conf"
-echo "search $mydomain" > /etc/resolv.conf
+sudo echo "search $mydomain" > /etc/resolv.conf
 for nameserver in $mynameservers
 do
-	echo "nameserver $nameserver" >> /etc/resolv.conf
+	sudo echo "nameserver $nameserver" >> /etc/resolv.conf
 done
 
 
@@ -84,24 +84,28 @@ done
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
 echo "Generating /etc/network/interfaces"
-cp interfaces.template /etc/network/interfaces
-sed -i "s/{IP}/$myip/g" /etc/network/interfaces
-sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
-sed -i "s/{NETWORK}/$mynetwork/g" /etc/network/interfaces
-sed -i "s/{BROADCAST}/$mybroadcast/g" /etc/network/interfaces
-sed -i "s/{GATEWAY}/$mygateway/g" /etc/network/interfaces
-sed -i "s/{NAMESERVERS}/$mynameservers/g" /etc/network/interfaces
-sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
+sudo cp interfaces.template /etc/network/interfaces
+sudo sed -i "s/{IP}/$myip/g" /etc/network/interfaces
+sudo sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
+sudo sed -i "s/{NETWORK}/$mynetwork/g" /etc/network/interfaces
+sudo sed -i "s/{BROADCAST}/$mybroadcast/g" /etc/network/interfaces
+sudo sed -i "s/{GATEWAY}/$mygateway/g" /etc/network/interfaces
+sudo sed -i "s/{NAMESERVERS}/$mynameservers/g" /etc/network/interfaces
+sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
 # Restart networking
-/etc/init.d/networking restart
+sudo /etc/init.d/networking restart
 
 
 # update and upgrade
 echo "Updating system"
-apt-get update
-apt-get -y upgrade
+sudo apt-get update
+sudo apt-get -y upgrade
+
+
+echo "Removed ~/.bash_login"
+rm ~/.bash_login
 
 
 echo
