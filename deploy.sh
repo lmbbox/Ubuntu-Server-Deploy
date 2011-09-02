@@ -12,6 +12,10 @@ then
 fi
 
 
+# Filepath
+root=`basename $0`
+
+
 # Get settings
 echo
 echo -n "Please enter a hostname: "
@@ -69,7 +73,7 @@ sudo echo $myhostname > /etc/hostname
 # hosts.template
 # {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
 echo "Generating /etc/hosts"
-sudo cp hosts.template /etc/hosts
+sudo cp $root/hosts.template /etc/hosts
 sudo sed -i "s/{IP}/$myip/g" /etc/hosts
 sudo sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
 sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
@@ -88,7 +92,7 @@ done
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
 echo "Generating /etc/network/interfaces"
-sudo cp interfaces.template /etc/network/interfaces
+sudo cp $root/interfaces.template /etc/network/interfaces
 sudo sed -i "s/{IP}/$myip/g" /etc/network/interfaces
 sudo sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
 sudo sed -i "s/{NETWORK}/$mynetwork/g" /etc/network/interfaces
@@ -100,7 +104,7 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 # Restart networking
 sudo /etc/init.d/networking restart
-sleep 10
+sleep 5
 
 
 # update and upgrade

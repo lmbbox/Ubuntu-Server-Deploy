@@ -79,12 +79,7 @@ EOF
 
 
 echo "Generating ~/.bash_login"
-echo << EOF > ~/.bash_login
-echo
-echo
-echo "Running sudo ~/deploy/deploy.sh"
-sudo ~/deploy/deploy.sh
-EOF
+echo "echo; echo; echo 'Running sudo ~/deploy/deploy.sh'; sudo ~/deploy/deploy.sh" > ~/.bash_login
 
 
 echo
