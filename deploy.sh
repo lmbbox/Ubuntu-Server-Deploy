@@ -104,7 +104,6 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 # Restart networking
 sudo /etc/init.d/networking restart
-sleep 5
 
 
 # update and upgrade
