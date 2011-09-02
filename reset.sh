@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+echo "Ubuntu Server Deployment System Reset Script"
+
+
 # Check that this distribution is Ubuntu
 if grep -qvi ubuntu <<< `uname -v`
 then
@@ -75,7 +79,12 @@ EOF
 
 
 echo "Generating ~/.bash_login"
-echo "sudo ~/deploy/deploy.sh" > ~/.bash_login
+echo << EOF > ~/.bash_login
+echo
+echo
+echo "Running sudo ~/deploy/deploy.sh"
+sudo ~/deploy/deploy.sh
+EOF
 
 
 echo

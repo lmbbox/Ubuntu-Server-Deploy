@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+echo "Ubuntu Server Deployment Script"
+
+
 # Check that this distribution is Ubuntu
 if grep -qvi ubuntu <<< `uname -v`
 then
@@ -96,6 +100,7 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 # Restart networking
 sudo /etc/init.d/networking restart
+sleep 10
 
 
 # update and upgrade
