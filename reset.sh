@@ -75,7 +75,7 @@ EOF
 
 
 echo "Generating ~/.bash_login"
-echo "~/deploy/deploy.sh" > ~/.bash_login
+echo "sudo ~/deploy/deploy.sh" > ~/.bash_login
 
 
 echo
