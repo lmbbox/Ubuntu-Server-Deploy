@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Check that this distrobution is Ubuntu
+# Check that this distribution is Ubuntu
 if grep -qvi ubuntu <<< `uname -v`
 then
-	echo "This script is meant for Ubuntu distrobutions only."
+	echo "This script is meant for Ubuntu distributions only."
 	exit 1
 fi
 
@@ -20,7 +20,7 @@ echo -n "Please enter a subnet mask (255.255.255.0): "
 read mynetmask
 echo -n "Please enter a gateway: "
 read mygateway
-echo -n "Please enter DNS servers (multiple separated by space): "
+echo -n "Please enter DNS servers (space separated): "
 read mynameservers
 
 
@@ -31,7 +31,6 @@ n="${mynetmask%.*}"
 m="${mynetmask#*.}"
 mynetwork=$((${myip%%.*}&${mynetmask%%.*})).$((${r%%.*}&${m%%.*})).$((${l##*.}&${n##*.})).$((${myip##*.}&${mynetmask##*.}))
 mybroadcast=$((${myip%%.*} | (255 ^ ${mynetmask%%.*}))).$((${r%%.*} | (255 ^ ${m%%.*}))).$((${l##*.} | (255 ^ ${n##*.}))).$((${myip##*.} | (255 ^ ${mynetmask##*.})))
-
 
 
 # Confirmation
@@ -58,12 +57,14 @@ fi
 
 
 # Generate /etc/hostname
+echo "Generating /etc/hostname"
 echo $myhostname > /etc/hostname
 
 
 # Generate /etc/hosts
 # hosts.template
-# {IP}    {HOSTNAME}.{DOMAIN}     {HOSTNAME}
+# {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
+echo "Generating /etc/hosts"
 cp hosts.template /etc/hosts
 sed -i "s/{IP}/$myip/g" /etc/hosts
 sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
@@ -71,6 +72,7 @@ sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
 
 
 # Generate /etc/resolv.conf
+echo "Generating /etc/resolv.conf"
 echo "search $mydomain" > /etc/resolv.conf
 for nameserver in $mynameservers
 do
@@ -81,6 +83,7 @@ done
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
+echo "Generating /etc/network/interfaces"
 cp interfaces.template /etc/network/interfaces
 sed -i "s/{IP}/$myip/g" /etc/network/interfaces
 sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
@@ -91,5 +94,16 @@ sed -i "s/{NAMESERVERS}/$mynameservers/g" /etc/network/interfaces
 sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
-echo "Deployment complete. Please reboot to see the changes."
+# Restart networking
+/etc/init.d/networking restart
+
+
+# update and upgrade
+echo "Updating system"
+apt-get update
+apt-get -y upgrade
+
+
+echo
+echo "Deployment complete. Please reboot."
 
