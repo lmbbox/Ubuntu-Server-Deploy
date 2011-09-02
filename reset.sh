@@ -12,6 +12,14 @@ then
 fi
 
 
+# Check if root
+if [ $UID != 0 ]
+then
+	echo "You are not root. This script must be run with root permissions."
+	exit 1
+fi
+
+
 # Get settings
 echo
 echo -n "Please enter a hostname: "
