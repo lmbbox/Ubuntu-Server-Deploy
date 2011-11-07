@@ -1,0 +1,2 @@
+# m	h	dom	mon	dow	user		command
+0	*	*	*	*	www-data	echo "Cron Job" >> /var/www/example.com/logs/cron.log
