@@ -1,2 +1,2 @@
 # m	h	dom	mon	dow	user		command
-0	*	*	*	*	www-data	echo "Cron Job" >> /var/www/example.com/logs/cron.log
+0	*	*	*	*	www-data	cd /var/www/example.com/htdocs; drush -q cron

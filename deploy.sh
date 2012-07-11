@@ -32,7 +32,7 @@ echo -n "Please enter a domain: "
 read mydomain
 echo -n "Please enter an IP: "
 read myip
-echo -n "Please enter a subnet mask (255.255.255.0): "
+echo -n "Please enter a subnet mask: "
 read mynetmask
 echo -n "Please enter a gateway: "
 read mygateway

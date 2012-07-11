@@ -5,5 +5,9 @@
 	compress
 	delaycompress
 	notifempty
-	create
+	create 644 root adm
+	sharedscripts
+	postrotate
+		/etc/init.d/apache2 reload > /dev/null
+	endscript
 }
