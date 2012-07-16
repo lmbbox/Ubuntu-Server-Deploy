@@ -60,7 +60,7 @@ echo "	Network: $mynetwork"
 echo "	Broadcast: $mybroadcast"
 echo "	Gateway: $mygateway"
 echo "	DNS Servers: $mynameservers"
-echo -n "Are these correct [y/N]? "
+echo -n "Are these correct? [y/N] "
 read -n 1 confirm
 echo
 
@@ -120,8 +120,6 @@ sudo apt-get update
 sudo apt-get -y upgrade
 
 
-
-
 # Extend LVM
 echo
 echo
@@ -158,6 +156,19 @@ echo
 if [ "$confirm" == "y" ]
 then
 	$root/deploy.apache.sh
+fi
+
+
+# Install Drush
+echo
+echo
+echo -n "Would you like to install Drush? [y/N] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" == "y" ]
+then
+	$root/deploy.drush.sh
 fi
 
 
