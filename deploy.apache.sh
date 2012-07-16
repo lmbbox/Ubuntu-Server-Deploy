@@ -37,7 +37,7 @@ sudo a2enmod include
 
 # Fix config files
 sudo sed -i "s/^#/;#/g" /etc/php5/conf.d/ming.ini
-sudo rm /etc/php5/conf.d/sqllite.ini
+sudo rm /etc/php5/conf.d/sqlite.ini
 
 
 # Copy example.com site to /var/www/
@@ -46,7 +46,6 @@ echo "Coping example.com site folder"
 sudo cp -R $root/example.com/ /var/www/
 sudo chown -R root:root /var/www/example.com/
 sudo chown -R 1000:www-data /var/www/example.com/htdocs/
-sudo chown www-data:root /var/www/example.com/logs/cron.log
 
 
 # Add logrotate config file
