@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo "Install Webserver Ubuntu Server Deployment Script"
 
 
@@ -25,7 +26,7 @@ root=$(dirname $(readlink -f $0))
 
 # Install Apache & PHP
 echo "Installing Apache & PHP"
-sudo apt-get -y install apache2 php5 libapache2-mod-php5 php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+sudo apt-get -y install apache2 php5 libapache2-mod-php5 php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-memcached php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
 echo
 echo "Activating Apache modules"
 sudo a2enmod ssl
@@ -34,12 +35,9 @@ sudo a2enmod suexec
 sudo a2enmod include
 
 
-# Install Postfix
-echo
-echo "Installing Postfix"
-echo "When asked, just use defaults by pressing Enter."
-echo -n "Press Enter to continue ... "
-sudo apt-get -y install postfix
+# Fix config files
+sudo sed -i "s/^#/;#/g" /etc/php5/conf.d/ming.ini
+sudo rm /etc/php5/conf.d/sqllite.ini
 
 
 # Copy example.com site to /var/www/

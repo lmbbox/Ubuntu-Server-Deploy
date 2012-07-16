@@ -125,91 +125,53 @@ sudo apt-get -y upgrade
 # Extend LVM
 echo
 echo
-echo -n "Would you like to extend the LVM [y/N]? "
+echo -n "Would you like to extend the LVM? [y/N] "
 read -n 1 confirm
 echo
 
 if [ "$confirm" == "y" ]
 then
-	$root/extendlvm.sh
+	$root/deploy.extendlvm.sh
 fi
 
 
 # Install MySQL
 echo
 echo
-echo -n "Would you like to install MySQL [y/N]? "
+echo -n "Would you like to install MySQL? [y/N] "
 read -n 1 confirm
 echo
 
 if [ "$confirm" == "y" ]
 then
-	$root/mysql.sh
+	$root/deploy.mysql.sh
 fi
 
 
 # Install Apache & PHP
 echo
 echo
-echo -n "Would you like to install Apache & PHP [y/N]? "
+echo -n "Would you like to install Apache & PHP? [y/N] "
 read -n 1 confirm
 echo
 
 if [ "$confirm" == "y" ]
 then
-	$root/webserver.sh
+	$root/deploy.apache.sh
 fi
 
 
-# Set Postfix replay
+# Install Postfix
 echo
 echo
-echo -n "Would you like to use a relay server for Postfix [y/N]? "
+echo -n "Would you like to install Postfix? [y/N] "
 read -n 1 confirm
 echo
 
 if [ "$confirm" == "y" ]
 then
-	loop=1
-	while $loop
-	do
-		echo -n "Please enter the relay host (including port if not 25): "
-		read relay1
-		
-		if [ -n "$relay1" ]
-		then
-			
-			
-			
-		else
-			echo -n "You didn't provide a relay host. Do you want to try again [Y/n]? "
-			read -n 1 tryagain
-			
-			if [ "$tryagain" == "n" ]
-			then
-				loop=0
-				cancel=1
-			fi
-		fi
-	done
-	
-	if [ ! cancel ]
-	then
-		
-		echo -n "Please enter the fallback relay host (including port if not 25). Leave blank if none: "
-		read relay2
-		
-		
-		# Edit /etc/postfix/main.cf config
-		sudo sed -i "/relayhost.*/d" /etc/postfix/main.cf
-		sudo sed -i "/smtp_fallback_relay.*/d" /etc/postfix/main.cf
-		sudo echo "relayhost = $relay1" >> /etc/postfix/main.cf
-		if [ -n "$relay2" ]
-			sudo echo "smtp_fallback_relay = $relay2" >> /etc/postfix/main.cf
-		fi
-	fi
+	$root/deploy.postfix.sh
 fi
-
 
 
 echo "Removed ~/.bash_login"
@@ -218,4 +180,3 @@ rm ~/.bash_login
 
 echo
 echo "Deployment complete. Please reboot."
-
