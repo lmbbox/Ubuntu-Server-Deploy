@@ -91,9 +91,16 @@ EOF
 
 
 echo "Generating ~/.bash_login"
-echo "echo; echo; echo 'Running sudo $root/deploy.sh'; sudo $root/deploy.sh" > ~/.bash_login
-
+cat << EOF > ~/.bash_login
+echo
+echo "Updating deployment scripts ..."
+echo
+cd $root
+git pull
+echo
+echo "Running deployment scripts ..."
+sudo ./deploy.sh
+EOF
 
 echo
 echo "System reset for deployment. Please poweroff."
-
