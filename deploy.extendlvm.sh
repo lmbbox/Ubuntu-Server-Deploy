@@ -135,7 +135,7 @@ do
 	read dev
 	
 	# Check that $dev is a block device and a partition
-	if [ ! -b $dev ] || ! grep -qi "Disk $dev" <<< `sudo fdisk -l` || [ $(sudo fdisk -l $dev | grep -i "$dev" | wc -l) != 1 ]
+	if [ ! -b $dev ] || grep -qi "Disk $dev" <<< `sudo fdisk -l` || ! grep -qi "$dev" <<< `sudo fdisk -l $dev`
 	then
 		echo "The device you entered is not a block device or a partition."
 		echo -n "Would you like to try again? [Yn] "
