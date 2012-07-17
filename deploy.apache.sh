@@ -37,6 +37,7 @@ sudo a2enmod include
 
 # Fix config files
 sudo sed -i "s/^#/;#/g" /etc/php5/conf.d/ming.ini
+sudo rm /etc/php5/conf.d/sqlite.ini
 
 
 # Copy example.com site to /var/www/
