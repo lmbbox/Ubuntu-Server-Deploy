@@ -27,8 +27,6 @@ root=$(dirname $(readlink -f $0))
 # Install Postfix
 echo
 echo "Installing Postfix"
-echo "When asked, just use defaults by pressing Enter."
-echo -n "Press Enter to continue ... "
 sudo apt-get -y install postfix
 
 
