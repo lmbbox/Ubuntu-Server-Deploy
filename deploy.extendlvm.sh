@@ -36,9 +36,9 @@ then
 	do
 		echo
 		disks=$(sudo fdisk -l /dev/sd?)
-		echo -e "\nPlease review your available disks for which you would like to partition for LVM.\nBesure that the disk has no existing partitions and is empty.\n\n$disks" | less -FX
+		echo -e "\nPlease review your available disks for which you would like to partition \nfor LVM. Besure that the disk has no existing partitions and is empty.\n\n$disks" | less -FX
 		echo
-		echo -n "Please enter the device to add to the LVM: "
+		echo -n "Please enter the device to partition: "
 		read dev
 		
 		# Check that $dev is a block device and is a root disk that is empty
@@ -92,22 +92,20 @@ EOF
 fi
 
 
-# Get volume group and logical volume to extend
+# Get partition to add to LVM
 while true
 do
 	echo
-	lvolumes=$(sudo lvdisplay)
-	echo -e "\nPlease review your Logical Volumes for which you would like to extend.\nPlease note the LV Name and VG Name values.\n\n$lvolumes" | less -FX
+	disks=$(sudo fdisk -l /dev/sd?)
+	echo -e "\nPlease review your available partitions for which you would like to add to the LVM.\n\n$disks" | less -FX
 	echo
-	echo -n "Please enter the LV Name: "
-	read lvname
-	echo -n "Please enter the VG Name: "
-	read vgname
+	echo -n "Please enter the device to add to the LVM: "
+	read dev
 	
 	# Check that $dev is a block device and a partition
-	if ! sudo vgdisplay $vgname > /dev/null || ! sudo lvdisplay $lvname > /dev/null
+	if [ ! -b $dev ] || grep -qi "Disk $dev" <<< `sudo fdisk -l` || ! grep -qi "$dev" <<< `sudo fdisk -l $dev`
 	then
-		echo "The values you entered are incorrect."
+		echo "The device you entered is not a block device or a partition."
 		echo -n "Would you like to try again? [Yn] "
 		read -n 1 tryagain
 		
@@ -124,20 +122,22 @@ do
 done
 
 
-# Get partition to add to LVM
+# Get volume group and logical volume to extend
 while true
 do
 	echo
-	disks=$(sudo fdisk -l /dev/sd?)
-	echo -e "\nPlease review your available partitions for which you would like to add to the LVM.\n\n$disks" | less -FX
+	lvolumes=$(sudo lvdisplay)
+	echo -e "\nPlease review your Logical Volumes for which you would like to extend.\nPlease note the LV Name and VG Name values.\n\n$lvolumes" | less -FX
 	echo
-	echo -n "Please enter the device to add to the LVM: "
-	read dev
+	echo -n "Please enter the LV Name: "
+	read lvname
+	echo -n "Please enter the VG Name: "
+	read vgname
 	
 	# Check that $dev is a block device and a partition
-	if [ ! -b $dev ] || grep -qi "Disk $dev" <<< `sudo fdisk -l` || ! grep -qi "$dev" <<< `sudo fdisk -l $dev`
+	if ! sudo vgdisplay $vgname > /dev/null || ! sudo lvdisplay $lvname > /dev/null
 	then
-		echo "The device you entered is not a block device or a partition."
+		echo "The values you entered are incorrect."
 		echo -n "Would you like to try again? [Yn] "
 		read -n 1 tryagain
 		
