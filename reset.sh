@@ -93,10 +93,11 @@ EOF
 echo "Generating ~/.bash_login"
 cat << EOF > ~/.bash_login
 echo
-echo "Updating deployment scripts ..."
-echo
+#echo "Updating deployment scripts ..."
+#echo
 cd $root
-git pull
+# Disabled because there is not network to update with, Doh!
+#git pull
 echo
 echo "Running deployment scripts ..."
 sudo ./deploy.sh
