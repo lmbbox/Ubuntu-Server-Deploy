@@ -71,11 +71,6 @@ ff02::2 ip6-allrouters
 EOF
 
 
-# Generate /etc/resolv.conf
-echo "Generating /etc/resolv.conf"
-sudo echo "search $mydomain" > /etc/resolv.conf
-
-
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
