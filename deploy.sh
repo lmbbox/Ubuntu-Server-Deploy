@@ -102,7 +102,7 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
 # Restart networking && reload hostname changes
-sudo service networking restart
+sudo /etc/init.d/networking restart
 sudo service hostname start
 
 
