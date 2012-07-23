@@ -110,8 +110,9 @@ sudo sed -i "s/{NAMESERVERS}/$mynameservers/g" /etc/network/interfaces
 sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
-# Restart networking
-sudo /etc/init.d/networking restart
+# Restart networking && reload hostname changes
+sudo service networking restart
+sudo service hostname start
 
 
 # Update and Upgrade
