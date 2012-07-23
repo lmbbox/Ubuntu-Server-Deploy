@@ -71,11 +71,6 @@ ff02::2 ip6-allrouters
 EOF
 
 
-# Generate /etc/resolv.conf
-echo "Generating /etc/resolv.conf"
-sudo echo "search $mydomain" > /etc/resolv.conf
-
-
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
@@ -87,17 +82,19 @@ sudo cat << EOF > /etc/network/interfaces
 # The loopback network interface
 auto lo
 iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
 EOF
 
 
 echo "Generating ~/.bash_login"
 cat << EOF > ~/.bash_login
 echo
-#echo "Updating deployment scripts ..."
-#echo
+echo "Updating deployment scripts ..."
+echo
 cd $root
-# Disabled because there is not network to update with, Doh!
-#git pull
+git pull
 echo
 echo "Running deployment scripts ..."
 sudo ./deploy.sh

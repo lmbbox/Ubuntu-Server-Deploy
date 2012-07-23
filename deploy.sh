@@ -87,15 +87,6 @@ sudo sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
 sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
 
 
-# Generate /etc/resolv.conf
-echo "Generating /etc/resolv.conf"
-sudo echo "search $mydomain" > /etc/resolv.conf
-for nameserver in $mynameservers
-do
-	sudo echo "nameserver $nameserver" >> /etc/resolv.conf
-done
-
-
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
