@@ -98,6 +98,7 @@ cd $root
 git pull
 echo
 echo "Running deployment scripts ..."
+sudo ifconfig eth0 down
 sudo ./deploy.sh
 cd
 EOF
