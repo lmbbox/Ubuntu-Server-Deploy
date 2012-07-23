@@ -88,6 +88,7 @@ sudo cat << EOF > /etc/network/interfaces
 auto lo
 iface lo inet loopback
 
+# The primary network interface
 auto eth0
 iface eth0 inet dhcp
 EOF
@@ -102,7 +103,9 @@ cd $root
 git pull
 echo
 echo "Running deployment scripts ..."
+sudo ifconfig eth0 down
 sudo ./deploy.sh
+cd
 EOF
 
 echo
