@@ -24,86 +24,18 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Get settings
-echo
-echo -n "Please enter a hostname: "
-read myhostname
-echo -n "Please enter a domain: "
-read mydomain
-echo -n "Please enter an IP: "
-read myip
-echo -n "Please enter a subnet mask: "
-read mynetmask
-echo -n "Please enter a gateway: "
-read mygateway
-echo -n "Please enter DNS servers (space separated): "
-read mynameservers
+# Setup Networking
+$root/deploy.d/network.sh
 
 
-# Generate network and broadcast values
-l="${myip%.*}"
-r="${myip#*.}"
-n="${mynetmask%.*}"
-m="${mynetmask#*.}"
-mynetwork=$((${myip%%.*}&${mynetmask%%.*})).$((${r%%.*}&${m%%.*})).$((${l##*.}&${n##*.})).$((${myip##*.}&${mynetmask##*.}))
-mybroadcast=$((${myip%%.*} | (255 ^ ${mynetmask%%.*}))).$((${r%%.*} | (255 ^ ${m%%.*}))).$((${l##*.} | (255 ^ ${n##*.}))).$((${myip##*.} | (255 ^ ${mynetmask##*.})))
+# Check Internet Access
+ping 8.8.8.8 > /dev/null
 
-
-# Confirmation
-echo
-echo "Please confirm your entries:"
-echo "	Hostname: $myhostname"
-echo "	Domain: $mydomain"
-echo "	IP Address: $myip"
-echo "	Subnet Mask: $mynetmask"
-echo "	Network: $mynetwork"
-echo "	Broadcast: $mybroadcast"
-echo "	Gateway: $mygateway"
-echo "	DNS Servers: $mynameservers"
-echo -n "Are these correct? [y/N] "
-read -n 1 confirm
-echo
-
-if [ "$confirm" != "y" ]
+if [ $? != 0 ]
 then
-	echo "Deployment Cancelled."
+	echo "You do not have internet access. The scripts require the internet to install packages."
 	exit 1
 fi
-
-
-
-# Generate /etc/hostname
-echo "Generating /etc/hostname"
-sudo echo $myhostname > /etc/hostname
-
-
-# Generate /etc/hosts
-# hosts.template
-# {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
-echo "Generating /etc/hosts"
-sudo cp $root/hosts.template /etc/hosts
-sudo sed -i "s/{IP}/$myip/g" /etc/hosts
-sudo sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
-sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
-
-
-# Generate /etc/network/interfaces
-# interfaces.template
-# {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
-echo "Generating /etc/network/interfaces"
-sudo cp $root/interfaces.template /etc/network/interfaces
-sudo sed -i "s/{IP}/$myip/g" /etc/network/interfaces
-sudo sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
-sudo sed -i "s/{NETWORK}/$mynetwork/g" /etc/network/interfaces
-sudo sed -i "s/{BROADCAST}/$mybroadcast/g" /etc/network/interfaces
-sudo sed -i "s/{GATEWAY}/$mygateway/g" /etc/network/interfaces
-sudo sed -i "s/{NAMESERVERS}/$mynameservers/g" /etc/network/interfaces
-sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
-
-
-# Restart networking && reload hostname changes
-sudo /etc/init.d/networking restart
-sudo service hostname start
 
 
 # Update and Upgrade
@@ -113,68 +45,29 @@ sudo apt-get -y upgrade
 
 
 # Extend LVM
-echo
-echo
-echo -n "Would you like to extend the LVM? [y/N] "
-read -n 1 confirm
-echo
-
-if [ "$confirm" == "y" ]
-then
-	$root/deploy.extendlvm.sh
-fi
-
+$root/deploy.d/extendlvm.sh
 
 # Install MySQL
-echo
-echo
-echo -n "Would you like to install MySQL? [y/N] "
-read -n 1 confirm
-echo
-
-if [ "$confirm" == "y" ]
-then
-	$root/deploy.mysql.sh
-fi
-
+$root/deploy.d/mysql.sh
 
 # Install Apache & PHP
-echo
-echo
-echo -n "Would you like to install Apache & PHP? [y/N] "
-read -n 1 confirm
-echo
-
-if [ "$confirm" == "y" ]
-then
-	$root/deploy.apache.sh
-fi
-
+$root/deploy.d/apache.sh
 
 # Install Drush
-echo
-echo
-echo -n "Would you like to install Drush? [y/N] "
-read -n 1 confirm
-echo
-
-if [ "$confirm" == "y" ]
-then
-	$root/deploy.drush.sh
-fi
-
+$root/deploy.d/drush.sh
 
 # Install Postfix
-echo
-echo
-echo -n "Would you like to install Postfix? [y/N] "
-read -n 1 confirm
-echo
+$root/deploy.d/postfix.sh
 
-if [ "$confirm" == "y" ]
-then
-	$root/deploy.postfix.sh
-fi
+
+# Run Custom Scripts
+echo
+echo "Running custom scripts $root/local.d/*.sh"
+echo
+for f in $root/local.d/*.sh
+do
+	$f
+done
 
 
 echo "Removed ~/.bash_login"

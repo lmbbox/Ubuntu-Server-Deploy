@@ -24,6 +24,19 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
+# Extend LVM
+echo
+echo
+echo -n "Would you like to extend the LVM? [y/N] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" != "y" ]
+then
+	exit 1
+fi
+
+
 # Create partition on empty disk
 echo
 echo -n "Would you like to partition an empty disk for LVM? [Y/n] "

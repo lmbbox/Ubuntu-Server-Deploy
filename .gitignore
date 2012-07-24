@@ -16,7 +16,7 @@ Desktop.ini
 # Project Ignores #
 ###################
 
-
+local.d/*
 
 #####################
 # Global Exceptions #

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-echo "Install Postfix Ubuntu Server Deployment Script"
+echo "Install MySQL Ubuntu Server Deployment Script"
 
 
 # Check that this distribution is Ubuntu
@@ -24,11 +24,23 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Postfix
+# Install MySQL
 echo
-echo "Installing Postfix"
-sudo apt-get -y install postfix
+echo
+echo -n "Would you like to install MySQL? [y/N] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" != "y" ]
+then
+	exit 1
+fi
 
 
 echo
-echo "Postfix installation complete."
+echo "Installing MySQL Client & Server"
+sudo apt-get -y install mysql-server mysql-client
+
+
+echo
+echo "MySQL installation complete."

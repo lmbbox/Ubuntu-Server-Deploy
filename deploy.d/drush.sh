@@ -24,6 +24,19 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
+# Install Drush
+echo
+echo
+echo -n "Would you like to install Drush? [y/N] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" != "y" ]
+then
+	exit 1
+fi
+
+
 echo
 echo "Installing Drush"
 sudo apt-get -y install drush
