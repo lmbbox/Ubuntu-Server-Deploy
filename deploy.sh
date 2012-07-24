@@ -72,8 +72,11 @@ for f in $root/local.d/*.sh
 do
 	$f
 done
+echo
+echo "Completed running custom scripts."
 
 
+echo
 echo "Removed ~/.bash_login"
 rm ~/.bash_login
 
