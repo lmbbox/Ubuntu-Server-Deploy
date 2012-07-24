@@ -24,6 +24,20 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
+# Install MySQL
+echo
+echo
+echo -n "Would you like to install MySQL? [y/N] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" != "y" ]
+then
+	echo "MySQL installation cancelled."
+	exit 1
+fi
+
+
 echo
 echo "Installing MySQL Client & Server"
 sudo apt-get -y install mysql-server mysql-client

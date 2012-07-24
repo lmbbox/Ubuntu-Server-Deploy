@@ -26,6 +26,20 @@ root=$(dirname $(readlink -f $0))
 
 # Install Postfix
 echo
+echo
+echo -n "Would you like to install Postfix? [y/N] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" != "y" ]
+then
+	echo "Postfix installation cancelled."
+	exit 1
+fi
+
+
+# Install Postfix
+echo
 echo "Installing Postfix"
 sudo apt-get -y install postfix
 
