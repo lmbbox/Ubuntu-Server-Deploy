@@ -33,6 +33,7 @@ echo
 
 if [ "$confirm" != "y" ]
 then
+	echo "Postfix installation cancelled."
 	exit 1
 fi
 

@@ -24,6 +24,25 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
+# Confirmation
+echo
+echo
+echo -n "Would you like to setup networking? [Y/n] "
+read -n 1 confirm
+echo
+
+if [ "$confirm" == "n" ]
+then
+	echo "Networking Setup cancelled."
+	exit 1
+fi
+
+
+# Shutdown all network interfaces except lo
+sudo ifdown -a
+sudo ifup lo
+
+
 # Get settings
 while true
 do

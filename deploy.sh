@@ -29,7 +29,11 @@ $root/deploy.d/network.sh
 
 
 # Check Internet Access
-ping 8.8.8.8 > /dev/null
+echo
+echo "Checking Internet Access ..."
+echo
+ping -c 5 8.8.8.8
+echo
 
 if [ $? != 0 ]
 then

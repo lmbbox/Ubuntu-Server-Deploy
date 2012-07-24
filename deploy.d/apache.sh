@@ -33,6 +33,7 @@ echo
 
 if [ "$confirm" != "y" ]
 then
+	echo "Webserver installation cancelled."
 	exit 1
 fi
 
@@ -67,4 +68,4 @@ sudo cp $root/apache/logrotate /etc/logrotate.d/websites
 
 
 echo
-echo "Webserver Installation complete."
+echo "Webserver installation complete."
