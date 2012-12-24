@@ -33,3 +33,15 @@ Build a new template by following the steps below. This implies you know the bas
 4. Install Open VM Tools (Server installs with no GUI).
 
 	apt-get install --no-install-recommends linux-headers-virtual open-vm-dkms open-vm-tools
+
+## ToDo
+
+Add options to allow loading of variables from local.d scripts named the same as deploy.d scripts or using conf files.
+
+Add deployment scripts for:
+
+	pound
+	varnish
+	nginx
+	php-cli
+	php-fpm
