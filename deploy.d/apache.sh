@@ -60,7 +60,7 @@ echo
 echo "Coping example.com site folder"
 sudo cp -R $root/apache/example.com/ /var/www/
 sudo chown -R root:root /var/www/example.com/
-sudo chown -R 1000:www-data /var/www/example.com/htdocs/
+sudo chown -R 1000:1000 /var/www/example.com/htdocs/
 
 
 # Add logrotate config file
