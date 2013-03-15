@@ -28,10 +28,10 @@ root=$(dirname $(readlink -f $0))
 echo
 echo
 echo -n "Would you like to install Drush? [y/N] "
-read -n 1 confirm
+read confirm
 echo
 
-if [ "$confirm" != "y" ]
+if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
 then
 	echo "Drush installation cancelled."
 	exit 1

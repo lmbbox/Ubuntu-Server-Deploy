@@ -38,10 +38,10 @@ echo "Please confirm your entries:"
 echo "	Hostname: $myhostname"
 echo "	Domain: $mydomain"
 echo -n "Are these correct [y/N]? "
-read -n 1 confirm
+read confirm
 echo
 
-if [ "$confirm" != "y" ]
+if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
 then
 	echo "Reset Cancelled."
 	exit 1

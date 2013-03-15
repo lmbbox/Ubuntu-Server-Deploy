@@ -28,23 +28,38 @@ root=$(dirname $(readlink -f $0))
 echo
 echo
 echo -n "Would you like to extend the LVM? [y/N] "
-read -n 1 confirm
+read confirm
 echo
 
-if [ "$confirm" != "y" ]
+if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
 then
 	echo "LVM Extension cancelled."
 	exit 1
 fi
 
 
+# Rescan SCSI Bus for new devices
+echo
+echo -n "Would you like to rescan scsi bus for new devices? [y/N] "
+read confirm
+echo
+
+if [ "$confirm" =~ ^[yY]([eE][sS])?$ ]
+then
+	for f in /sys/class/scsi_host/*/scan
+	do
+		echo "- - -" > "$f"
+	done
+fi
+
+
 # Create partition on empty disk
 echo
 echo -n "Would you like to partition an empty disk for LVM? [Y/n] "
-read -n 1 confirm
+read confirm
 echo
 
-if [ "$confirm" != "n" ]
+if [ ! "$confirm" =~ ^[nN][oO]?$ ]
 then
 	while true
 	do
@@ -60,15 +75,15 @@ then
 		then
 			echo "The device you entered is not a block device or an empty disk."
 			echo -n "Would you like to try again? [Yn] "
-			read -n 1 tryagain
+			read tryagain
 			
-			if [ "$tryagain" == "n" ]
+			if [ "$tryagain" =~ ^[nN][oO]?$ ]
 			then
 				echo
 				echo -n "Do you still want to continue with extending the LVM? [yN] "
-				read -n 1 tryagain
+				read tryagain
 				
-				if [ "$tryagain" == "y" ]
+				if [ "$confirm" =~ ^[yY]([eE][sS])?$ ]
 				then
 					echo
 					echo "Skipping disk partitioning."
@@ -121,9 +136,9 @@ do
 	then
 		echo "The device you entered is not a block device or a partition."
 		echo -n "Would you like to try again? [Yn] "
-		read -n 1 tryagain
+		read tryagain
 		
-		if [ "$tryagain" == "n" ]
+		if [ "$tryagain" =~ ^[nN][oO]?$ ]
 		then
 			echo
 			echo "Canceled LVM Extension."
@@ -153,9 +168,9 @@ do
 	then
 		echo "The values you entered are incorrect."
 		echo -n "Would you like to try again? [Yn] "
-		read -n 1 tryagain
+		read tryagain
 		
-		if [ "$tryagain" == "n" ]
+		if [ "$tryagain" =~ ^[nN][oO]?$ ]
 		then
 			echo
 			echo "Canceled LVM Extension."
