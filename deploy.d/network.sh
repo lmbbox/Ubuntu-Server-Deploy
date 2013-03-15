@@ -28,10 +28,10 @@ root=$(dirname $(readlink -f $0))
 echo
 echo
 echo -n "Would you like to setup networking? [Y/n] "
-read -n 1 confirm
+read confirm
 echo
 
-if [ "$confirm" == "n" ]
+if [ "$confirm" =~ ^[nN][oO]?$ ]
 then
 	echo "Networking Setup cancelled."
 	exit 1
@@ -82,15 +82,15 @@ do
 	echo "	Gateway: $mygateway"
 	echo "	DNS Servers: $mynameservers"
 	echo -n "Are these correct? [y/N] "
-	read -n 1 confirm
+	read confirm
 	echo
 	
-	if [ "$confirm" != "y" ]
+	if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
 	then
 		echo -n "Would you like to try again? [Yn] "
-		read -n 1 tryagain
+		read tryagain
 		
-		if [ "$tryagain" == "n" ]
+		if [ "$tryagain" =~ ^[nN][oO]?$ ]
 		then
 			echo
 			echo "Canceled Networking Setup."
