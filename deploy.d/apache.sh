@@ -31,7 +31,7 @@ echo -n "Would you like to install Apache & PHP? [y/N] "
 read confirm
 echo
 
-if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
+if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
 	echo "Webserver installation cancelled."
 	exit 1

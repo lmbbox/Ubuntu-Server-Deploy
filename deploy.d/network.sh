@@ -31,7 +31,7 @@ echo -n "Would you like to setup networking? [Y/n] "
 read confirm
 echo
 
-if [ "$confirm" =~ ^[nN][oO]?$ ]
+if [[ "$confirm" =~ ^[nN][oO]?$ ]]
 then
 	echo "Networking Setup cancelled."
 	exit 1
@@ -85,12 +85,12 @@ do
 	read confirm
 	echo
 	
-	if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
+	if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
 		echo -n "Would you like to try again? [Yn] "
 		read tryagain
 		
-		if [ "$tryagain" =~ ^[nN][oO]?$ ]
+		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
 			echo "Canceled Networking Setup."

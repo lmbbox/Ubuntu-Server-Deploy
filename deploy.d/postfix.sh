@@ -31,7 +31,7 @@ echo -n "Would you like to install Postfix? [y/N] "
 read confirm
 echo
 
-if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
+if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
 	echo "Postfix installation cancelled."
 	exit 1

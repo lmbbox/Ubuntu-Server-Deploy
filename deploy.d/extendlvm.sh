@@ -31,7 +31,7 @@ echo -n "Would you like to extend the LVM? [y/N] "
 read confirm
 echo
 
-if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
+if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
 	echo "LVM Extension cancelled."
 	exit 1
@@ -44,7 +44,7 @@ echo -n "Would you like to rescan scsi bus for new devices? [y/N] "
 read confirm
 echo
 
-if [ "$confirm" =~ ^[yY]([eE][sS])?$ ]
+if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
 	for f in /sys/class/scsi_host/*/scan
 	do
@@ -59,7 +59,7 @@ echo -n "Would you like to partition an empty disk for LVM? [Y/n] "
 read confirm
 echo
 
-if [ ! "$confirm" =~ ^[nN][oO]?$ ]
+if [[ ! "$confirm" =~ ^[nN][oO]?$ ]]
 then
 	while true
 	do
@@ -77,13 +77,13 @@ then
 			echo -n "Would you like to try again? [Yn] "
 			read tryagain
 			
-			if [ "$tryagain" =~ ^[nN][oO]?$ ]
+			if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
 			then
 				echo
 				echo -n "Do you still want to continue with extending the LVM? [yN] "
 				read tryagain
 				
-				if [ "$confirm" =~ ^[yY]([eE][sS])?$ ]
+				if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 				then
 					echo
 					echo "Skipping disk partitioning."
@@ -138,7 +138,7 @@ do
 		echo -n "Would you like to try again? [Yn] "
 		read tryagain
 		
-		if [ "$tryagain" =~ ^[nN][oO]?$ ]
+		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
 			echo "Canceled LVM Extension."
@@ -170,7 +170,7 @@ do
 		echo -n "Would you like to try again? [Yn] "
 		read tryagain
 		
-		if [ "$tryagain" =~ ^[nN][oO]?$ ]
+		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
 			echo "Canceled LVM Extension."
