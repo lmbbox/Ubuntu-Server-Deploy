@@ -7,4 +7,4 @@
 #*	*	*	*	*	www-data	wget -O - -q -t 1 http://example.com/cron.php?cron_key=
 
 # Magento
-#0/5	*	*	*	*	www-data	/var/www/example.com/htdocs/cron.sh 
+#*/5	*	*	*	*	www-data	/var/www/example.com/htdocs/cron.sh 
