@@ -41,7 +41,7 @@ echo -n "Are these correct [y/N]? "
 read confirm
 echo
 
-if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
+if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
 	echo "Reset Cancelled."
 	exit 1

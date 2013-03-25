@@ -31,7 +31,7 @@ echo -n "Would you like to install MySQL? [y/N] "
 read confirm
 echo
 
-if [ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]
+if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
 	echo "MySQL installation cancelled."
 	exit 1
