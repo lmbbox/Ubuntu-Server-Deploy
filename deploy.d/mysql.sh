@@ -5,7 +5,7 @@ echo "Install MySQL Ubuntu Server Deployment Script"
 
 
 # Check that this distribution is Ubuntu
-if grep -qvi ubuntu <<< `uname -v`
+if uname -v | grep -qvi ubuntu
 then
 	echo "This script is meant for Ubuntu distributions only."
 	exit 1
