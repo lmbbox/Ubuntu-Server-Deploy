@@ -5,7 +5,7 @@ echo "Extend LVM Ubuntu Server Deployment Script"
 
 
 # Check that this distribution is Ubuntu
-if grep -qvi ubuntu <<< `uname -v`
+if uname -v | grep -qvi ubuntu
 then
 	echo "This script is meant for Ubuntu distributions only."
 	exit 1
@@ -61,49 +61,41 @@ echo
 
 if [[ ! "$confirm" =~ ^[nN][oO]?$ ]]
 then
-	while true
+	echo
+	echo "Disks Detected: "
+	PS3="Please enter your choice (leave blank to see options again): "
+	devices="$(ls /dev/sd?) Skip Cancel"
+	select dev in $devices
 	do
-		echo
-		disks=$(sudo fdisk -l /dev/sd?)
-		echo -e "\nPlease review your available disks for which you would like to partition \nfor LVM. Besure that the disk has no existing partitions and is empty.\n\n$disks" | less -FX
-		echo
-		echo -n "Please enter the device to partition: "
-		read dev
-		
-		# Check that $dev is a block device and is a root disk that is empty
-		if [ ! -b $dev ] || ! grep -qi "Disk $dev" <<< `sudo fdisk -l` || [ $(sudo fdisk -l $dev | grep -i "$dev" | wc -l) != 1 ]
-		then
-			echo "The device you entered is not a block device or an empty disk."
-			echo -n "Would you like to try again? [Yn] "
-			read tryagain
-			
-			if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
-			then
-				echo
-				echo -n "Do you still want to continue with extending the LVM? [yN] "
-				read tryagain
-				
-				if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
-				then
-					echo
-					echo "Skipping disk partitioning."
-					break
-				fi
-				
+		case "$dev" in
+			'')
+				echo "Invalid option. Try another one."
+				;;
+			Cancel)
 				echo
 				echo "Canceled LVM Extension."
 				echo
 				exit 1
-			fi
-			continue
-		fi
-		
-		
-		# Partition device
-		echo
-		echo "Partitioning the device $dev ..."
-		echo
-		sudo fdisk $dev <<EOF
+				;;
+			Skip)
+				echo
+				echo "Skipping disk partitioning."
+				break
+				;;
+			*)
+				# Check that $dev is a block device and is a root disk that is empty
+				if [ ! -b $dev ] || ! $(sudo fdisk -l 2> /dev/null | grep -qi "Disk $dev") || [ $(sudo fdisk -l $dev 2> /dev/null | grep -i "$dev" | wc -l) != 1 ]
+				then
+					echo
+					echo "The device you selected is not a block device or an empty disk."
+					continue
+				fi
+				
+				# Partition device
+				echo
+				echo "Partitioning the device $dev ..."
+				echo
+				sudo fdisk $dev <<EOF
 n
 p
 1
@@ -113,73 +105,85 @@ t
 8e
 w
 EOF
-		echo
-		echo "Partitioning Complete."
-		echo
-		break
+				echo
+				echo "Partitioning Complete."
+				echo
+				# Set $dev to new partition on drive
+				dev=$(ls $dev?)
+				break
+				;;
+		esac
 	done
 fi
 
 
 # Get partition to add to LVM
-while true
-do
+# First check if $dev is a valid device that we partitioned
+if [ ! -b $dev ] || $(sudo fdisk -l 2> /dev/null | grep -qi "Disk $dev") || ! $(sudo fdisk -l $dev 2> /dev/null | grep -qi "$dev")
+then
 	echo
-	disks=$(sudo fdisk -l /dev/sd?)
-	echo -e "\nPlease review your available partitions for which you would like to add to the LVM.\n\n$disks" | less -FX
-	echo
-	echo -n "Please enter the device to add to the LVM: "
-	read dev
-	
-	# Check that $dev is a block device and a partition
-	if [ ! -b $dev ] || grep -qi "Disk $dev" <<< `sudo fdisk -l` || ! grep -qi "$dev" <<< `sudo fdisk -l $dev`
-	then
-		echo "The device you entered is not a block device or a partition."
-		echo -n "Would you like to try again? [Yn] "
-		read tryagain
-		
-		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
-		then
-			echo
-			echo "Canceled LVM Extension."
-			echo
-			exit 1
-		fi
-		continue
-	fi
-	break
-done
+	echo "Please review your available partitions for which you would like to add to the LVM."
+	echo "Partitions Detected: "
+	PS3="Please enter your choice (leave blank to see options again): "
+	devices="$(ls /dev/sd??) Cancel"
+	select dev in $devices
+	do
+		case "$dev" in
+			'')
+				echo "Invalid option. Try another one."
+				;;
+			Cancel)
+				echo
+				echo "Canceled LVM Extension."
+				echo
+				exit 1
+				;;
+			*)
+				if [ ! -b $dev ] || $(sudo fdisk -l 2> /dev/null | grep -qi "Disk $dev") || ! $(sudo fdisk -l $dev 2> /dev/null | grep -qi "$dev")
+				then
+					echo
+					echo "The device you selected is not a block device or a partition."
+					continue
+				fi
+				break
+				;;
+		esac
+	done
+fi
 
 
 # Get volume group and logical volume to extend
-while true
+echo
+echo "Please review your Logical Volumes for which you would like to extend."
+echo "Partitions Detected: "
+PS3="Please enter your choice (leave blank to see options again): "
+lvolumes="$(sudo lvdisplay | awk '/LV Name/{print $3}') Cancel"
+select lvname in $lvolumes
 do
-	echo
-	lvolumes=$(sudo lvdisplay)
-	echo -e "\nPlease review your Logical Volumes for which you would like to extend.\nPlease note the LV Name and VG Name values.\n\n$lvolumes" | less -FX
-	echo
-	echo -n "Please enter the LV Name: "
-	read lvname
-	echo -n "Please enter the VG Name: "
-	read vgname
-	
-	# Check that $dev is a block device and a partition
-	if ! sudo vgdisplay $vgname > /dev/null || ! sudo lvdisplay $lvname > /dev/null
-	then
-		echo "The values you entered are incorrect."
-		echo -n "Would you like to try again? [Yn] "
-		read tryagain
-		
-		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
-		then
+	case "$lvname" in
+		'')
+			echo "Invalid option. Try another one."
+			;;
+		Cancel)
 			echo
 			echo "Canceled LVM Extension."
 			echo
 			exit 1
-		fi
-		continue
-	fi
-	break
+			;;
+		*)
+			# Get vgname from lvname
+			vgname=$(sudo lvdisplay $lvname 2> /dev/null | awk '/VG Name/{print $3}')
+			
+			# Check that $vgname and $lvname are a valid
+			if ! $(sudo vgdisplay $vgname > /dev/null 2>&1) || ! $(sudo lvdisplay $lvname > /dev/null 2>&1)
+			then
+				echo
+				echo "The volume you selected is not valid."
+				continue
+			fi
+			break
+			;;
+	esac
 done
 
 
