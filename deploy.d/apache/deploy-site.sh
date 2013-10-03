@@ -20,6 +20,14 @@ then
 fi
 
 
+# Check if apache2 is installed
+if [[ ! -d /etc/apache2 || ! -d /etc/apache2/sites-available || ! -d /etc/apache2/sites-enabled ]]
+then
+	echo "There is no apache2 configuration directory on this server."
+	exit 1
+fi
+
+
 # Filepath
 root=$(dirname $(readlink -f $0))
 
