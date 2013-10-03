@@ -61,6 +61,7 @@ echo "Coping example.com site folder"
 sudo cp -R $root/apache/example.com/ /var/www/
 sudo chown -R root:root /var/www/example.com/
 sudo chown -R 1000:1000 /var/www/example.com/htdocs/
+sudo cp $root/apache/deploy-site.sh /var/www/
 
 
 # Add logrotate config file
