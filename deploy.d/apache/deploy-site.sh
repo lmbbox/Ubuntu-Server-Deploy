@@ -60,7 +60,7 @@ do
 		echo -n "Would you like to try again? [Y/n] "
 		read tryagain
 
-		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
+		if [[ ! "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
 			echo "Canceled Deployment."
@@ -104,10 +104,10 @@ sudo ln -s $root/$mydomain/cron /etc/cron.d/${mydomain//./-}
 
 
 echo
-echo -n "Would you like to create a MySQL Database and User? [Y/n]"
+echo -n "Would you like to create a MySQL Database and User? [Y/n] "
 read confirm
 
-if [[ "$confirm" =~ ^[nN][oO]?$ ]]
+if [[ ! "$confirm" =~ ^[nN][oO]?$ ]]
 then
 	echo -n "MySQL Host: "
 	read mysqlhost
