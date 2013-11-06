@@ -46,8 +46,8 @@ sudo apt-get -y install mysql-server mysql-client mysqltuner
 echo
 echo "Securing MySQL Installation"
 echo
-echo "Please provide password for root MySQL user:"
-mysql -u root -p < "DELETE FROM mysql.user WHERE User=''; DROP DATABASE test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;"
+echo "Please provide password for root MySQL user: "
+mysql -u root -p -e "DELETE FROM mysql.user WHERE User=''; DROP DATABASE test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;"
 
 
 echo
