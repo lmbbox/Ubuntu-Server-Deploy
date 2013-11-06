@@ -119,7 +119,7 @@ then
 	dbuser="$(echo $mydomain | tr -d "[:space:][:punct:]" | head -c 16)"
 	dbpass="$(cat /dev/urandom | tr -cd "[:alnum:]" | head -c 32)"
 
-	mysql -h $mysqlhost -u $mysqluser -p < "CREATE DATABASE $dbname; GRANT ALL ON $dbname.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'; FLUSH PRIVILEGES;"
+	mysql -h $mysqlhost -u $mysqluser -p -e "CREATE DATABASE $dbname; GRANT ALL ON $dbname.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'; FLUSH PRIVILEGES;"
 
 	echo "host: $mysqlhost" > $root/$mydomain/database.conf
 	echo "user: $dbuser" >> $root/$mydomain/database.conf
