@@ -104,4 +104,32 @@ sudo ln -s $root/$mydomain/cron /etc/cron.d/${mydomain//./-}
 
 
 echo
+echo -n "Would you like to create a MySQL Database and User? [Y/n]"
+read confirm
+
+if [[ "$confirm" =~ ^[nN][oO]?$ ]]
+then
+	echo -n "MySQL Host: "
+	read mysqlhost
+	echo -n "MySQL Admin User: "
+	read mysqluser
+
+	# Generate MySQL username, password, and database name
+	dbname="$(echo $mydomain | tr -d "[:space:][:punct:]" | head -c 32)"
+	dbuser="$(echo $mydomain | tr -d "[:space:][:punct:]" | head -c 16)"
+	dbpass="$(cat /dev/urandom | tr -cd "[:alnum:]" | head -c 32)"
+
+	mysql -h $mysqlhost -u $mysqluser -p < "CREATE DATABASE $dbname; GRANT ALL ON $dbname.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'; FLUSH PRIVILEGES;"
+
+	echo "host: $mysqlhost" > $root/$mydomain/database.conf
+	echo "user: $dbuser" >> $root/$mydomain/database.conf
+	echo "pass: $dbpass" >> $root/$mydomain/database.conf
+	echo "db: $dbname" >> $root/$mydomain/database.conf
+
+	echo
+	echo "MySQL Database and User created. Details are in the file $root/$mydomain/database.conf"
+fi
+
+
+echo
 echo "Site Root deployment complete."
