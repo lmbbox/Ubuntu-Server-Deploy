@@ -13,7 +13,7 @@ fi
 
 
 # Check if root
-if [ $UID != 0 ]
+if [[ $UID != 0 ]]
 then
 	echo "You are not root. This script must be run with root permissions."
 	exit 1

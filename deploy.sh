@@ -51,6 +51,9 @@ sudo apt-get -y upgrade
 # Extend LVM
 $root/deploy.d/extendlvm.sh
 
+# Install UFW
+$root/deploy.d/ufw.sh
+
 # Install MySQL
 $root/deploy.d/mysql.sh
 

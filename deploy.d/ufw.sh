@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-echo "Install Postfix Ubuntu Server Deployment Script"
+echo "Install & Configure Uncomplicated Firewall (UFW)"
 
 
 # Check that this distribution is Ubuntu
@@ -32,25 +32,33 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Postfix
+# Install UFW
 echo
 echo
-echo -n "Would you like to install Postfix? [y/N] "
+echo -n "Would you like to install & configure Uncomplicated Firewall? [y/N] "
 read confirm
 echo
 
 if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 then
-	echo "Postfix installation cancelled."
+	echo "Uncomplicated Firewall installation cancelled."
 	exit 1
 fi
 
 
-# Install Postfix
 echo
-echo "Installing Postfix ..."
-sudo apt-get -y install postfix
+echo "Installing Uncomplicated Firewall ..."
+sudo apt-get -y install ufw
 
 
 echo
-echo "Postfix installation complete."
+echo "Allowing ssh ..."
+sudo ufw allow 22
+
+echo
+echo "Enabling UFW ..."
+sudo ufw enable
+
+
+echo
+echo "Uncomplicated Firewall installation complete."
