@@ -95,8 +95,8 @@ sudo cp -a $root/example.com $root/$mydomain
 sudo sed -i "s/example.com/$mydomain/" $root/$mydomain/vhost.conf $root/$mydomain/cron
 
 # Setup Apache Vhost file and enable site
-sudo ln -s $root/$mydomain/vhost.conf /etc/apache2/sites-available/$mydomain
-sudo ln -s ../sites-available/$mydomain /etc/apache2/sites-enabled/$mydomain
+sudo ln -s $root/$mydomain/vhost.conf /etc/apache2/sites-available/$mydomain.conf
+sudo ln -s ../sites-available/$mydomain.conf /etc/apache2/sites-enabled/$mydomain.conf
 sudo service apache2 restart
 
 # Link Cron file
