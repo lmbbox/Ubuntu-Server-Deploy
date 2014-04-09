@@ -52,10 +52,27 @@ sudo apt-get -y install mysql-server mysql-client mysqltuner
 
 
 echo
-echo "Securing MySQL Installation"
+echo "Securing MySQL Installation ..."
 echo
-echo "Please provide password for root MySQL user: "
-mysql -u root -p -e "DELETE FROM mysql.user WHERE User=''; DROP DATABASE test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;"
+
+while (true)
+do
+	echo "Please provide password for root MySQL user: "
+	if mysql -u root -p -e "DELETE FROM mysql.user WHERE User=''; DROP DATABASE test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;"
+	then
+		break
+	else
+		echo
+		echo -n "There was a problem. Would you like to try again? [Y/n] "
+		read confirm
+		echo
+		
+		if [[ "$confirm" =~ ^[nN][oO]?$ ]]
+		then
+			break
+		fi
+	fi
+done
 
 
 # Add UFW rules
