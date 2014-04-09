@@ -13,7 +13,7 @@ fi
 
 
 # Check if root
-if [ $UID != 0 ]
+if [[ $UID != 0 ]]
 then
 	echo "You are not root. This script must be run with root permissions."
 	exit 1
@@ -105,7 +105,7 @@ done
 
 # Generate /etc/hostname
 echo "Generating /etc/hostname"
-sudo echo $myhostname > /etc/hostname
+echo $myhostname | sudo tee /etc/hostname > /dev/null
 
 
 # Generate /etc/hosts
@@ -135,6 +135,26 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 # Restart networking && reload hostname changes
 sudo /etc/init.d/networking restart
 sudo service hostname start
+
+
+# Check Internet Access
+if ! ping -c 2 8.8.8.8 > /dev/null
+then
+	echo
+	echo -n "You do not have internet access. Would you like to setup networking again? [Y/n] "
+	read confirm
+	echo
+	
+	if [[ "$confirm" =~ ^[nN][oO]?$ ]]
+	then
+		echo "Networking Setup cancelled."
+		exit 1
+	fi
+	
+	# Run script again
+	$0
+	exit $?
+fi
 
 
 echo
