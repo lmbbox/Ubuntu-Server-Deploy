@@ -39,7 +39,7 @@ fi
 
 
 echo
-echo "Installing Drush"
+echo "Installing Drush ..."
 sudo apt-get -y install drush
 
 

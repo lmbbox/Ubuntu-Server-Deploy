@@ -40,7 +40,7 @@ fi
 
 # Install Postfix
 echo
-echo "Installing Postfix"
+echo "Installing Postfix ..."
 sudo apt-get -y install postfix
 
 
