@@ -13,9 +13,17 @@ fi
 
 
 # Check if root
-if [ $UID != 0 ]
+if [[ $UID != 0 ]]
 then
 	echo "You are not root. This script must be run with root permissions."
+	exit 1
+fi
+
+
+# Check Internet Access
+if ! ping -c 2 8.8.8.8 > /dev/null
+then
+	echo "You do not have internet access. This script requires the internet to install packages."
 	exit 1
 fi
 
@@ -39,7 +47,7 @@ fi
 
 
 echo
-echo "Installing Drush"
+echo "Installing Drush ..."
 sudo apt-get -y install drush
 
 

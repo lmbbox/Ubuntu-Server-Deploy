@@ -13,9 +13,17 @@ fi
 
 
 # Check if root
-if [ $UID != 0 ]
+if [[ $UID != 0 ]]
 then
 	echo "You are not root. This script must be run with root permissions."
+	exit 1
+fi
+
+
+# Check Internet Access
+if ! ping -c 2 8.8.8.8 > /dev/null
+then
+	echo "You do not have internet access. This script requires the internet to install packages."
 	exit 1
 fi
 
@@ -40,7 +48,9 @@ fi
 
 # Install Postfix
 echo
-echo "Installing Postfix"
+echo "Installing Postfix ..."
+sudo debconf-set-selections <<< "postfix postfix/mailname string $(hostname -f)"
+sudo debconf-set-selections <<< "postfix postfix/main_mailer_type string Internet Site"
 sudo apt-get -y install postfix
 
 

@@ -13,7 +13,7 @@ fi
 
 
 # Check if root
-if [ $UID != 0 ]
+if [[ $UID != 0 ]]
 then
 	echo "You are not root. This script must be run with root permissions."
 	exit 1
@@ -24,44 +24,21 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Setup Networking
-$root/deploy.d/network.sh
-
-
-# Check Internet Access
+# Run Deployment Scripts
 echo
-echo "Checking Internet Access ..."
+echo "Running deployment scripts $root/deploy.d/*.sh"
 echo
-ping -c 5 8.8.8.8
+for f in $root/deploy.d/*.sh
+do
+	if [[ -x $root/local.d/$(basename $f) ]]
+	then
+		$root/local.d/$(basename $f)
+	else
+		$f
+	fi
+done
 echo
-
-if [ $? != 0 ]
-then
-	echo "You do not have internet access. The scripts require the internet to install packages."
-	exit 1
-fi
-
-
-# Update and Upgrade
-echo "Updating system"
-sudo apt-get update
-sudo apt-get -y upgrade
-
-
-# Extend LVM
-$root/deploy.d/extendlvm.sh
-
-# Install MySQL
-$root/deploy.d/mysql.sh
-
-# Install Apache & PHP
-$root/deploy.d/apache.sh
-
-# Install Drush
-$root/deploy.d/drush.sh
-
-# Install Postfix
-$root/deploy.d/postfix.sh
+echo "Completed running deployment scripts."
 
 
 # Run Custom Scripts
@@ -70,7 +47,10 @@ echo "Running custom scripts $root/local.d/*.sh"
 echo
 for f in $root/local.d/*.sh
 do
-	$f
+	if [[ ! -x $root/deploy.d/$(basename $f) ]]
+	then
+		$f
+	fi
 done
 echo
 echo "Completed running custom scripts."
