@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -30,7 +32,12 @@ echo "Running deployment scripts $root/deploy.d/*.sh"
 echo
 for f in $root/deploy.d/*.sh
 do
-	$f
+	if [[ -x $root/local.d/$(basename $f) ]]
+	then
+		$root/local.d/$(basename $f)
+	else
+		$f
+	fi
 done
 echo
 echo "Completed running deployment scripts."
@@ -42,7 +49,10 @@ echo "Running custom scripts $root/local.d/*.sh"
 echo
 for f in $root/local.d/*.sh
 do
-	$f
+	if [[ ! -x $root/deploy.d/$(basename $f) ]]
+	then
+		$f
+	fi
 done
 echo
 echo "Completed running custom scripts."
@@ -55,3 +65,4 @@ rm ~/.bash_login
 
 echo
 echo "Deployment complete. Please reboot."
+echo

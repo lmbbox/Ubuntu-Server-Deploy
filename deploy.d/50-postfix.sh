@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install Postfix Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Postfix
-echo
+# Confirmation
 echo
 echo -n "Would you like to install Postfix? [y/N] "
 read confirm
@@ -54,5 +55,23 @@ sudo debconf-set-selections <<< "postfix postfix/main_mailer_type string Interne
 sudo apt-get -y install postfix
 
 
+# Add UFW rules
+if [[ -x $(which ufw) ]]
+then
+	echo
+	echo -n "Would you like to allow access to Postfix (smtp) remotely? [y/N] "
+	read confirm
+	echo
+	
+	if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
+	then
+		echo
+		echo "Allowing smtp (25) in UFW"
+		sudo ufw allow 25
+	fi
+fi
+
+
 echo
 echo "Postfix installation complete."
+echo

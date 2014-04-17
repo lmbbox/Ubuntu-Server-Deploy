@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Extend LVM Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -24,8 +26,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Extend LVM
-echo
+# Confirmation
 echo
 echo -n "Would you like to extend the LVM? [y/N] "
 read confirm
@@ -215,3 +216,4 @@ sudo resize2fs $lvname
 
 echo
 echo "LVM Extension complete."
+echo

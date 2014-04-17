@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install Solr v3.6.2 Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Solr
-echo
+# Confirmation
 echo
 echo -n "Would you like to install Solr v3.6.2? [y/N] "
 read confirm
@@ -114,3 +115,4 @@ fi
 
 echo
 echo "Solr v3.6.2 installation complete."
+echo

@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install Webserver Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Apache & PHP
-echo
+# Confirmation
 echo
 echo -n "Would you like to install Apache & PHP? [y/N] "
 read confirm
@@ -69,10 +70,10 @@ sudo cp $root/apache/httpd.conf /etc/apache2/httpd.conf
 # Secure Apache configurations
 echo
 echo "Securing Apache configurations"
-sudo sed -i '/^ServerTokens/s/^/#/' /etc/apache2/conf.d/security
-sudo sed -i "`grep -n 'ServerTokens' /etc/apache2/conf.d/security | cut -d \: -f 1 | tail -1`aServerTokens Prod" /etc/apache2/conf.d/security
-sudo sed -i '/^ServerSignature/s/^/#/' /etc/apache2/conf.d/security
-sudo sed -i "`grep -n 'ServerSignature' /etc/apache2/conf.d/security | cut -d \: -f 1 | tail -1`aServerSignature Off" /etc/apache2/conf.d/security
+sudo sed -i '/^ServerTokens/s/^/#/' /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
+sudo sed -i '/^#ServerTokens Minimal/i ServerTokens Prod' /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
+sudo sed -i '/^ServerSignature/s/^/#/' /etc/apache2/conf.d/security /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
+sudo sed -i '/^#ServerSignature Off/s/^#//' /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
 
 
 # Add custom PHP config
@@ -82,7 +83,7 @@ sudo cp $root/php5/conf.d/custom.ini /etc/php5/conf.d/custom.ini
 
 
 # Fix config files
-sudo sed -i "s/^#/;#/g" /etc/php5/conf.d/ming.ini
+sudo sed -i 's/^#/;#/g' /etc/php5/conf.d/ming.ini
 sudo rm /etc/php5/conf.d/sqlite.ini
 
 
@@ -116,3 +117,4 @@ sudo service apache2 restart
 
 echo
 echo "Webserver installation complete."
+echo
