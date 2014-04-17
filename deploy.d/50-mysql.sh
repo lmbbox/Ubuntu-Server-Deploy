@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install MySQL Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install MySQL
-echo
+# Confirmation
 echo
 echo -n "Would you like to install MySQL? [y/N] "
 read confirm
@@ -94,3 +95,4 @@ fi
 
 echo
 echo "MySQL installation complete."
+echo

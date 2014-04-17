@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -63,3 +65,4 @@ rm ~/.bash_login
 
 echo
 echo "Deployment complete. Please reboot."
+echo
