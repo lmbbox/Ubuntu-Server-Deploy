@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install Drush Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Drush
-echo
+# Confirmation
 echo
 echo -n "Would you like to install Drush? [y/N] "
 read confirm
@@ -53,3 +54,4 @@ sudo apt-get -y install drush
 
 echo
 echo "Drush installation complete."
+echo

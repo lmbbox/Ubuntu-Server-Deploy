@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install Updates Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Updates
-echo
+# Confirmation
 echo
 echo -n "Would you like to install Updates? [y/N] "
 read confirm
@@ -54,3 +55,4 @@ sudo apt-get -y upgrade
 
 echo
 echo "Updates installation complete."
+echo

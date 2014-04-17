@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install Webserver Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install Apache & PHP
-echo
+# Confirmation
 echo
 echo -n "Would you like to install Apache & PHP? [y/N] "
 read confirm
@@ -115,3 +116,4 @@ sudo service apache2 restart
 
 echo
 echo "Webserver installation complete."
+echo

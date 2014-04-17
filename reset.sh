@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Ubuntu Server Deployment System Reset Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -105,3 +107,4 @@ EOF
 
 echo
 echo "System reset for deployment. Please poweroff."
+echo

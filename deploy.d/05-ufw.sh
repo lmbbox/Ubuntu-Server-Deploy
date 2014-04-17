@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Install & Configure Uncomplicated Firewall (UFW)"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -32,8 +34,7 @@ fi
 root=$(dirname $(readlink -f $0))
 
 
-# Install UFW
-echo
+# Confirmation
 echo
 echo -n "Would you like to install & configure Uncomplicated Firewall? [y/N] "
 read confirm
@@ -62,3 +63,4 @@ sudo ufw enable
 
 echo
 echo "Uncomplicated Firewall installation complete."
+echo

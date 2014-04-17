@@ -1,7 +1,9 @@
 #!/bin/bash
 
-
+echo
+echo
 echo "Setup Networking Ubuntu Server Deployment Script"
+echo
 
 
 # Check that this distribution is Ubuntu
@@ -25,7 +27,6 @@ root=$(dirname $(readlink -f $0))
 
 
 # Confirmation
-echo
 echo
 echo -n "Would you like to setup networking? [Y/n] "
 read confirm
@@ -94,7 +95,6 @@ do
 		then
 			echo
 			echo "Canceled Networking Setup."
-			echo
 			exit 1
 		fi
 		continue
@@ -159,3 +159,4 @@ fi
 
 echo
 echo "Networking Setup complete."
+echo
