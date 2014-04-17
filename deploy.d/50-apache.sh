@@ -36,7 +36,7 @@ root=$(dirname $(readlink -f $0))
 
 # Confirmation
 echo
-echo -n "Would you like to install Apache & PHP? [y/N] "
+echo -n "Would you like to install Webserver (Apache & PHP)? [y/N] "
 read confirm
 echo
 
@@ -106,7 +106,7 @@ sudo cp $root/apache/logrotate /etc/logrotate.d/websites
 if [[ -x $(which ufw) ]]
 then
 	echo
-	echo "Allowing http (80) & https (443) in UFW"
+	echo "Allowing http (80) and https (443) in UFW ..."
 	sudo ufw allow 80
 	sudo ufw allow 443
 fi

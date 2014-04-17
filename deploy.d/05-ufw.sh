@@ -53,7 +53,7 @@ sudo apt-get -y install ufw
 
 
 echo
-echo "Allowing ssh ..."
+echo "Allowing ssh (22) in UFW ..."
 sudo ufw allow 22
 
 echo

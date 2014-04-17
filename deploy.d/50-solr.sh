@@ -107,7 +107,7 @@ then
 	if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
 		echo
-		echo "Allowing solr (8983) in UFW"
+		echo "Allowing solr (8983) in UFW ..."
 		sudo ufw allow 8983
 	fi
 fi
