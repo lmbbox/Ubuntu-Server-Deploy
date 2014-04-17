@@ -88,13 +88,13 @@ do
 	
 	if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
-		echo -n "Would you like to try again? [Yn] "
+		echo -n "Would you like to try again? [Y/n] "
 		read tryagain
 		
 		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
-			echo "Canceled Networking Setup."
+			echo "Networking Setup cancelled."
 			exit 1
 		fi
 		continue
@@ -141,7 +141,8 @@ sudo service hostname start
 if ! ping -c 2 8.8.8.8 > /dev/null
 then
 	echo
-	echo -n "You do not have internet access. Would you like to setup networking again? [Y/n] "
+	echo "Internet access could not be verified."
+	echo -n "Would you like to setup networking again? [Y/n] "
 	read confirm
 	echo
 	

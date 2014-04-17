@@ -87,7 +87,7 @@ then
 	if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
 		echo
-		echo "Allowing mysql (3306) in UFW"
+		echo "Allowing mysql (3306) in UFW ..."
 		sudo ufw allow 3306
 	fi
 fi
