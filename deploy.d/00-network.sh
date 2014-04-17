@@ -88,7 +88,7 @@ do
 	
 	if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
-		echo -n "Would you like to try again? [Yn] "
+		echo -n "Would you like to try again? [Y/n] "
 		read tryagain
 		
 		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
