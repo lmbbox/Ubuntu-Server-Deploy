@@ -104,14 +104,14 @@ done
 
 
 # Generate /etc/hostname
-echo "Generating /etc/hostname"
+echo "Generating /etc/hostname ..."
 echo $myhostname | sudo tee /etc/hostname > /dev/null
 
 
 # Generate /etc/hosts
 # hosts.template
 # {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
-echo "Generating /etc/hosts"
+echo "Generating /etc/hosts ..."
 sudo cp $root/network/hosts /etc/hosts
 sudo sed -i "s/{IP}/$myip/g" /etc/hosts
 sudo sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
@@ -121,7 +121,7 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/hosts
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
-echo "Generating /etc/network/interfaces"
+echo "Generating /etc/network/interfaces ..."
 sudo cp $root/network/interfaces /etc/network/interfaces
 sudo sed -i "s/{IP}/$myip/g" /etc/network/interfaces
 sudo sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
@@ -133,11 +133,13 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
 # Restart networking && reload hostname changes
+echo "Applying networking changes ..."
 sudo /etc/init.d/networking restart
 sudo service hostname start
 
 
 # Check Internet Access
+echo "Checking internet access ..."
 if ! ping -c 2 8.8.8.8 > /dev/null
 then
 	echo
