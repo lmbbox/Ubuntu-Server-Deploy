@@ -134,7 +134,8 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 # Restart networking && reload hostname changes
 echo "Applying networking changes ..."
-sudo /etc/init.d/networking restart
+sudo ifdown -a
+sudo ifup -a
 sudo service hostname start
 
 
