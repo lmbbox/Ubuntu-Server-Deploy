@@ -101,7 +101,6 @@ find $root -type d -name .git -exec sh -c "cd \"{}\"/../ && pwd && git pull" \;
 echo
 echo "Running deployment scripts ..."
 sudo $root/deploy.sh
-cd
 EOF
 
 

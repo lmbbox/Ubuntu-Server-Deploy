@@ -36,11 +36,11 @@ root=$(dirname $(readlink -f $0))
 
 # Confirmation
 echo
-echo -n "Would you like to install Updates? [y/N] "
+echo -n "Would you like to install Updates? [Y/n] "
 read confirm
 echo
 
-if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
+if [[ "$confirm" =~ ^[nN][oO]?$ ]]
 then
 	echo "Updates installation cancelled."
 	exit 1
