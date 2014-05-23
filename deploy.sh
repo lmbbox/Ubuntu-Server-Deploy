@@ -1,5 +1,14 @@
 #!/bin/bash
 
+
+# Setup output logging:
+named_pipe=/tmp/$$.tmp
+trap "rm -f $named_pipe" EXIT
+mknod $named_pipe p
+tee <$named_pipe -a ~/deploy.log &
+exec 1>$named_pipe 2>&1
+
+
 echo
 echo
 echo "Ubuntu Server Deployment Script"
