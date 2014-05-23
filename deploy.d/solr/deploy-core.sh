@@ -81,7 +81,7 @@ do
 	then
 		echo -n "Would you like to try again? [Y/n] "
 		read tryagain
-
+		
 		if [[ ! "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
