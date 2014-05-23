@@ -88,13 +88,13 @@ do
 	
 	if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
-		echo -n "Would you like to try again? [Yn] "
+		echo -n "Would you like to try again? [Y/n] "
 		read tryagain
 		
 		if [[ "$tryagain" =~ ^[nN][oO]?$ ]]
 		then
 			echo
-			echo "Canceled Networking Setup."
+			echo "Networking Setup cancelled."
 			exit 1
 		fi
 		continue
@@ -104,14 +104,14 @@ done
 
 
 # Generate /etc/hostname
-echo "Generating /etc/hostname"
+echo "Generating /etc/hostname ..."
 echo $myhostname | sudo tee /etc/hostname > /dev/null
 
 
 # Generate /etc/hosts
 # hosts.template
 # {IP} {HOSTNAME} {DOMAIN} {HOSTNAME}
-echo "Generating /etc/hosts"
+echo "Generating /etc/hosts ..."
 sudo cp $root/network/hosts /etc/hosts
 sudo sed -i "s/{IP}/$myip/g" /etc/hosts
 sudo sed -i "s/{HOSTNAME}/$myhostname/g" /etc/hosts
@@ -130,7 +130,7 @@ done
 # Generate /etc/network/interfaces
 # interfaces.template
 # {IP} {NETMASK} {NETWORK} {BROADCAST} {GATEWAY} {NAMESERVERS} {DOMAIN}
-echo "Generating /etc/network/interfaces"
+echo "Generating /etc/network/interfaces ..."
 sudo cp $root/network/interfaces /etc/network/interfaces
 sudo sed -i "s/{IP}/$myip/g" /etc/network/interfaces
 sudo sed -i "s/{NETMASK}/$mynetmask/g" /etc/network/interfaces
@@ -142,15 +142,19 @@ sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
 # Restart networking && reload hostname changes
-sudo /etc/init.d/networking restart
+echo "Applying networking changes ..."
+sudo ifdown -a
+sudo ifup -a
 sudo service hostname start
 
 
 # Check Internet Access
+echo "Checking internet access ..."
 if ! ping -c 2 8.8.8.8 > /dev/null
 then
 	echo
-	echo -n "You do not have internet access. Would you like to setup networking again? [Y/n] "
+	echo "Internet access could not be verified."
+	echo -n "Would you like to setup networking again? [Y/n] "
 	read confirm
 	echo
 	

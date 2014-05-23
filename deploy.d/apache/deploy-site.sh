@@ -46,7 +46,7 @@ do
 	echo
 	echo -n "Please enter a domain: "
 	read mydomain
-
+	
 	# Confirmation
 	echo
 	echo "Please confirm your entries:"
@@ -54,7 +54,7 @@ do
 	echo -n "Are these correct? [y/N] "
 	read confirm
 	echo
-
+	
 	if [[ ! "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
 		echo -n "Would you like to try again? [Y/n] "
@@ -113,19 +113,19 @@ then
 	read mysqlhost
 	echo -n "MySQL Admin User: "
 	read mysqluser
-
+	
 	# Generate MySQL username, password, and database name
 	dbname="$(echo $mydomain | tr -d "[:space:][:punct:]" | head -c 32)"
 	dbuser="$(echo $mydomain | tr -d "[:space:][:punct:]" | head -c 16)"
 	dbpass="$(cat /dev/urandom | tr -cd "[:alnum:]" | head -c 32)"
-
+	
 	mysql -h $mysqlhost -u $mysqluser -p -e "CREATE DATABASE $dbname DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON $dbname.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'; FLUSH PRIVILEGES;"
-
+	
 	echo "host: $mysqlhost" > $root/$mydomain/database.conf
 	echo "user: $dbuser" >> $root/$mydomain/database.conf
 	echo "pass: $dbpass" >> $root/$mydomain/database.conf
 	echo "db: $dbname" >> $root/$mydomain/database.conf
-
+	
 	echo
 	echo "MySQL Database and User created. Details are in the file $root/$mydomain/database.conf"
 fi

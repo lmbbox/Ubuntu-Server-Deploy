@@ -60,7 +60,7 @@ wget -q -O ~/apache-solr-3.6.2.tgz http://archive.apache.org/dist/lucene/solr/3.
 tar -zxf ~/apache-solr-3.6.2.tgz
 
 
-# copy the solr executable and sample conf to the solr home dir
+# Copy the solr executable and sample conf to the solr home dir
 sudo cp -r ~/apache-solr-3.6.2/example /usr/local/share/solr
 
 
@@ -78,7 +78,19 @@ sudo sed -i '/core0/d' /usr/local/share/solr/solr/solr.xml
 sudo sed -i 's/core1/example-com/g' /usr/local/share/solr/solr/solr.xml
 
 
-# create the solr user
+# Create Drupal 7 Search API Solr template core
+SEARCH_API_SOLR_CURRENT=$(wget -O - http://updates.drupal.org/release-history/search_api_solr/7.x 2> /dev/null | sed -e '/<download_link>.*<\/download_link>/!d' -e 's/.*<download_link>\(.*\)<\/download_link>/\1/g' | head -n 1)
+wget -q -O ~/${SEARCH_API_SOLR_CURRENT##*/} "$SEARCH_API_SOLR_CURRENT"
+tar -zxf ~/${SEARCH_API_SOLR_CURRENT##*/}
+sudo cp -a /usr/local/share/solr/solr/tpl-base /usr/local/share/solr/solr/tpl-drupal-search-api-7
+sudo cp -a ~/search_api_solr/solr-conf/3.x/* /usr/local/share/solr/solr/tpl-drupal-search-api-7/conf/
+
+
+# Copy deploy-core script
+sudo cp $root/solr/deploy-core.sh /usr/local/share/solr/solr/
+
+
+# Create the solr user
 sudo useradd --system --home-dir /usr/local/share/solr --shell /bin/false solr
 sudo chown -R solr:solr /usr/local/share/solr
 
@@ -107,7 +119,7 @@ then
 	if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
 		echo
-		echo "Allowing solr (8983) in UFW"
+		echo "Allowing solr (8983) in UFW ..."
 		sudo ufw allow 8983
 	fi
 fi

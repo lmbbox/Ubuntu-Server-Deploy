@@ -66,7 +66,7 @@ then
 	if [[ "$confirm" =~ ^[yY]([eE][sS])?$ ]]
 	then
 		echo
-		echo "Allowing smtp (25) in UFW"
+		echo "Allowing smtp (25) in UFW ..."
 		sudo ufw allow 25
 	fi
 fi

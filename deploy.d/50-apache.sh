@@ -36,7 +36,7 @@ root=$(dirname $(readlink -f $0))
 
 # Confirmation
 echo
-echo -n "Would you like to install Apache & PHP? [y/N] "
+echo -n "Would you like to install Webserver (Apache & PHP)? [y/N] "
 read confirm
 echo
 
@@ -62,14 +62,14 @@ sudo a2enmod headers
 
 # Replace httpd.conf with custom one
 echo
-echo "Replacing /etc/apache2/httpd.conf"
+echo "Replacing /etc/apache2/httpd.conf ..."
 sudo mv /etc/apache2/httpd.conf /etc/apache2/httpd.conf-dist
 sudo cp $root/apache/httpd.conf /etc/apache2/httpd.conf
 
 
 # Secure Apache configurations
 echo
-echo "Securing Apache configurations"
+echo "Securing Apache configurations ..."
 sudo sed -i '/^ServerTokens/s/^/#/' /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
 sudo sed -i '/^#ServerTokens Minimal/i ServerTokens Prod' /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
 sudo sed -i '/^ServerSignature/s/^/#/' /etc/apache2/conf.d/security /etc/apache2/conf{.d/security,-available/security.conf} 2> /dev/null
@@ -78,7 +78,7 @@ sudo sed -i '/^#ServerSignature Off/s/^#//' /etc/apache2/conf{.d/security,-avail
 
 # Add custom PHP config
 echo
-echo "Creating /etc/php5/conf.d/custom.ini"
+echo "Creating /etc/php5/conf.d/custom.ini ..."
 sudo cp $root/php5/conf.d/custom.ini /etc/php5/conf.d/custom.ini
 
 
@@ -89,7 +89,7 @@ sudo rm /etc/php5/conf.d/sqlite.ini
 
 # Copy example.com site to /srv/www/
 echo
-echo "Coping example.com site folder"
+echo "Coping example.com site folder ..."
 sudo mkdir -p /srv/www
 sudo cp -R $root/apache/example.com/ /srv/www/
 sudo chown -R root:root /srv/www/example.com/
@@ -99,7 +99,7 @@ sudo cp $root/apache/deploy-site.sh /srv/www/
 
 # Add logrotate config file
 echo
-echo "Creating /etc/logrotate.d/websites"
+echo "Creating /etc/logrotate.d/websites ..."
 sudo cp $root/apache/logrotate /etc/logrotate.d/websites
 
 
@@ -107,7 +107,7 @@ sudo cp $root/apache/logrotate /etc/logrotate.d/websites
 if [[ -x $(which ufw) ]]
 then
 	echo
-	echo "Allowing http (80) & https (443) in UFW"
+	echo "Allowing http (80) and https (443) in UFW ..."
 	sudo ufw allow 80
 	sudo ufw allow 443
 fi
