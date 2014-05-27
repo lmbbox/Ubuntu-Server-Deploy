@@ -158,7 +158,7 @@ echo
 echo "Please review your Logical Volumes for which you would like to extend."
 echo "Partitions Detected: "
 PS3="Please enter your choice (leave blank to see options again): "
-lvolumes="$(sudo lvdisplay | awk '/LV Name/{print $3}') Cancel"
+lvolumes="$(sudo lvdisplay | awk '/LV Path/{print $3}') Cancel"
 select lvname in $lvolumes
 do
 	case "$lvname" in
