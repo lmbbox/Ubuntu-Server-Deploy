@@ -106,6 +106,7 @@ done
 # Generate /etc/hostname
 echo "Generating /etc/hostname ..."
 echo $myhostname | sudo tee /etc/hostname > /dev/null
+sudo service hostname start
 
 
 # Generate /etc/hosts
@@ -132,11 +133,10 @@ sudo sed -i "s/{NAMESERVERS}/$mynameservers/g" /etc/network/interfaces
 sudo sed -i "s/{DOMAIN}/$mydomain/g" /etc/network/interfaces
 
 
-# Restart networking && reload hostname changes
-echo "Applying networking changes ..."
+# Restart networking
+echo "Resarting networking ..."
 sudo ifdown -a
 sudo ifup -a
-sudo service hostname start
 
 
 # Check Internet Access
