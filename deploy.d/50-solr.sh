@@ -52,7 +52,7 @@ echo "Installing Solr v3.6.2 ..."
 
 
 # Install Java
-sudo apt-get -y install openjdk-7-jdk
+sudo apt-get -y install openjdk-6-jdk
 
 
 # Download latest version or the one you want:
