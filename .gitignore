@@ -23,5 +23,5 @@ local.d/*
 # Global Exceptions #
 #####################
 
-!.htaccess
-!.gitignore
+#!.htaccess
+#!.gitignore
