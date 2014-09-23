@@ -45,3 +45,5 @@ Add deployment scripts for:
 	nginx
 	php-cli
 	php-fpm
+	suphp
+	solr with authentication (https://www.drupal.org/node/967628)
