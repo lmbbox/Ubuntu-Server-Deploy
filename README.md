@@ -24,15 +24,15 @@ Build a new template by following the steps below. This implies you know the bas
 1. Install Ubuntu with LVM. Set swap size.
 2. Install updates.
 
-	apt-get update && apt-get upgrade
+	sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
 
 3. Install SSH and Git along with any other defaults you want.
 
-	apt-get install ssh openssh-server ntp ntpdate curl git subversion
+	sudo apt-get install ssh openssh-server ntp ntpdate curl git subversion tofrodos
 
 4. Install Open VM Tools (Server installs with no GUI).
 
-	apt-get install --no-install-recommends linux-headers-virtual open-vm-dkms open-vm-tools
+	sudo apt-get install --no-install-recommends linux-headers-virtual open-vm-dkms open-vm-tools
 
 ## ToDo
 
