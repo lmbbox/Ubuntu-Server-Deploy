@@ -67,6 +67,12 @@ sudo mv /etc/apache2/httpd.conf /etc/apache2/httpd.conf-dist
 sudo cp $root/apache/httpd.conf /etc/apache2/httpd.conf
 
 
+# Enable NameVirtualHost on port 443
+echo
+echo "Enabling SNI SSL support ..."
+sudo sed -i '/Listen 443/i\    NameVirtualHost *:443' /etc/apache2/ports.conf
+
+
 # Secure Apache configurations
 echo
 echo "Securing Apache configurations ..."
