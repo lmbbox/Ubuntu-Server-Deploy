@@ -53,7 +53,7 @@ sudo apt-get -y install acl
 
 
 # Configure /etc/fstab to use ACL on root partition and remount
-sed -iE 's@(\s/\s*ext.\s*)@\1acl,@' /etc/fstab
+sed -Ei 's@(\s/\s*ext.\s*)@\1acl,@' /etc/fstab
 mount -o remount /
 
 
