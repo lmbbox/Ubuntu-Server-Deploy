@@ -99,6 +99,7 @@ sudo mkdir -p /srv/www
 sudo cp -R $root/apache/example.com/ /srv/www/
 sudo chown -R root:root /srv/www/example.com/
 sudo chown -R 1000:1000 /srv/www/example.com/htdocs/
+[[ -x $(which setfacl) ]] && sudo setfacl -R $(echo {-m\ ,-m\ d:}{u,g}:1000:rwX)  /srv/www/example.com/htdocs/
 sudo cp $root/apache/deploy-site.sh /srv/www/
 
 
